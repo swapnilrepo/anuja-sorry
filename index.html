@@ -1,1 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>For Anuja ❤️</title>
 
+<style>
+*{box-sizing:border-box}
+
+html,body{
+  margin:0;
+  height:100%;
+  overflow:hidden;
+}
+
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:linear-gradient(135deg,#fff7fa,#ffd8e5);
+  color:#762943;
+}
+
+.wrap{
+  height:100svh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+.card{
+  width:min(430px,94vw);
+  min-height:500px;
+  padding:35px 22px;
+  border-radius:30px;
+  background:rgba(255,255,255,.88);
+  box-shadow:0 22px 65px rgba(100,25,55,.16);
+  text-align:center;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+
+.heart{
+  font-size:70px;
+  animation:beat 1.2s infinite;
+}
+
+@keyframes beat{
+  0%,100%{transform:scale(1)}
+  15%{transform:scale(1.14)}
+  30%{transform:scale(1)}
+  45%{transform:scale(1.08)}
+}
+
+h1{
+  margin:16px 0 10px;
+  font:500 42px Georgia,serif;
+}
+
+.question{
+  margin:10px 0 28px;
+  font:26px/1.35 Georgia,serif;
+}
+
+.buttonArea{
+  width:100%;
+  height:160px;
+  position:relative;
+}
+
+button{
+  border:0;
+  border-radius:999px;
+  padding:16px 22px;
+  font-size:16px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+#yes{
+  position:absolute;
+  left:50%;
+  top:5px;
+  transform:translateX(-50%);
+  background:#c93462;
+  color:white;
+  box-shadow:0 10px 24px rgba(201,52,98,.25);
+}
+
+#no{
+  position:absolute;
+  left:50%;
+  top:82px;
+  transform:translateX(-50%);
+  background:white;
+  color:#a33b5a;
+  border:1px solid #edb2c5;
+  white-space:nowrap;
+}
+
+.hint{
+  height:20px;
+  font-size:13px;
+  color:#b25b78;
+}
+
+.signature{
+  margin-top:20px;
+  font:italic 18px Georgia,serif;
+}
+
+#success{
+  position:fixed;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:linear-gradient(135deg,#fff0f5,#ffd1df);
+  z-index:10;
+}
+
+.successCard{
+  width:min(430px,94vw);
+  padding:42px 24px;
+  text-align:center;
+  border-radius:30px;
+  background:white;
+  box-shadow:0 25px 75px rgba(100,25,55,.2);
+  animation:pop .55s ease-out;
+}
+
+@keyframes pop{
+  from{
+    opacity:0;
+    transform:scale(.75);
+  }
+  to{
+    opacity:1;
+    transform:scale(1);
+  }
+}
+
+.big{
+  font-size:78px;
+}
+
+.successCard h2{
+  margin:8px 0;
+  font:500 48px Georgia,serif;
+  color:#c22d59;
+}
+
+.successCard p{
+  font:23px/1.45 Georgia,serif;
+  margin:10px 0;
+}
+
+.float{
+  position:fixed;
+  bottom:-40px;
+  pointer-events:none;
+  z-index:20;
+  animation:floatUp 4s linear forwards;
+}
+
+@keyframes floatUp{
+  to{
+    transform:translateY(-110vh) rotate(360deg);
+    opacity:0;
+  }
+}
+
+.confetti{
+  position:fixed;
+  top:-12px;
+  width:8px;
+  height:14px;
+  z-index:30;
+  animation:fall 3s linear forwards;
+}
+
+@keyframes fall{
+  to{
+    transform:translateY(110vh) rotate(720deg);
+    opacity:0;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+  <div class="card">
+
+    <div class="heart">❤️</div>
+
+    <h1>Anuja, I'm Sorry</h1>
+
+    <div class="question">
+      Can we continue<br>
+      loving each other? ❤️
+    </div>
+
+    <div class="buttonArea" id="area">
+
+      <button id="yes">
+        Yes, I love you ❤️
+      </button>
+
+      <button id="no">
+        No, put more efforts 😤
+      </button>
+
+    </div>
+
+    <div class="hint" id="hint"></div>
+
+    <div class="signature">
+      — Swapnil ❤️
+    </div>
+
+  </div>
+
+</div>
+
+
+<div id="success">
+
+  <div class="successCard">
+
+    <div class="big">🥰❤️</div>
+
+    <h2>YAY!</h2>
+
+    <p>I knew you still loved me. ❤️</p>
+
+    <p>I promise to put in more effort.</p>
+
+    <p><strong>I love you, Anuja. ❤️</strong></p>
+
+    <p>— Swapnil</p>
+
+  </div>
+
+</div>
+
+
+<script>
+
+const noButton = document.getElementById("no");
+const yesButton = document.getElementById("yes");
+const area = document.getElementById("area");
+const hint = document.getElementById("hint");
+const success = document.getElementById("success");
+
+let attempts = 0;
+
+const messages = [
+  "Are you sure? 🥺",
+  "Try again 😏",
+  "Nice try 😂",
+  "Nope ❤️",
+  "You know you love me 🥰"
+];
+
+function moveNoButton(){
+
+  const areaRect = area.getBoundingClientRect();
+  const buttonRect = noButton.getBoundingClientRect();
+
+  const maxX = areaRect.width - buttonRect.width;
+  const maxY = areaRect.height - buttonRect.height;
+
+  const x = Math.max(0, Math.random() * maxX);
+  const y = Math.max(0, Math.random() * maxY);
+
+  noButton.style.left = x + "px";
+  noButton.style.top = y + "px";
+  noButton.style.transform = "none";
+
+  hint.textContent =
+    messages[attempts % messages.length];
+
+  attempts++;
+}
+
+
+/* Desktop + mobile */
+["pointerenter","mouseenter","touchstart","focus"].forEach(event => {
+
+  noButton.addEventListener(event, function(e){
+
+    e.preventDefault();
+    moveNoButton();
+
+  }, {passive:false});
+
+});
+
+
+noButton.addEventListener("click",function(e){
+
+  e.preventDefault();
+  moveNoButton();
+
+});
+
+
+/* YES BUTTON */
+
+yesButton.addEventListener("click",function(){
+
+  success.style.display = "flex";
+
+  celebration();
+
+});
+
+
+/* Celebration */
+
+function celebration(){
+
+  const hearts = [
+    "❤️",
+    "💕",
+    "💖",
+    "💗",
+    "💘",
+    "✨",
+    "🥰"
+  ];
+
+
+  /* Floating hearts */
+
+  for(let i=0;i<40;i++){
+
+    setTimeout(function(){
+
+      const heart =
+        document.createElement("div");
+
+      heart.className = "float";
+
+      heart.textContent =
+        hearts[Math.floor(Math.random()*hearts.length)];
+
+      heart.style.left =
+        Math.random()*100 + "vw";
+
+      heart.style.fontSize =
+        (20 + Math.random()*26) + "px";
+
+      heart.style.animationDuration =
+        (3 + Math.random()*3) + "s";
+
+      document.body.appendChild(heart);
+
+      setTimeout(
+        () => heart.remove(),
+        6500
+      );
+
+    },i*70);
+
+  }
+
+
+  /* Confetti */
+
+  const colors = [
+    "#c93462",
+    "#f29ab4",
+    "#e4b849",
+    "#8bc4d6",
+    "#9a66d7"
+  ];
+
+  for(let i=0;i<90;i++){
+
+    setTimeout(function(){
+
+      const piece =
+        document.createElement("div");
+
+      piece.className = "confetti";
+
+      piece.style.left =
+        Math.random()*100 + "vw";
+
+      piece.style.background =
+        colors[Math.floor(Math.random()*colors.length)];
+
+      piece.style.animationDuration =
+        (2 + Math.random()*2) + "s";
+
+      document.body.appendChild(piece);
+
+      setTimeout(
+        () => piece.remove(),
+        4500
+      );
+
+    },i*15);
+
+  }
+
+}
+
+</script>
+
+</body>
+</html>
